@@ -1,11 +1,15 @@
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.MessageFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import sun.util.logging.PlatformLogger;
@@ -21,12 +25,16 @@ import sun.util.logging.PlatformLogger;
  * @author Smktelkom
  */
 public class frame1 extends javax.swing.JFrame {
-
-    /**
-     * Creates new form frame1
-     */
+    
+    int jam;
+    int menit;
+    int detik;
+    
     public frame1() {
         initComponents();
+        
+        setTanggal() ;
+        setJam() ;
     }
 
     /**
@@ -64,6 +72,8 @@ public class frame1 extends javax.swing.JFrame {
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
+        tanggal = new javax.swing.JLabel();
+        waktu = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel22 = new javax.swing.JLabel();
         pesanan = new javax.swing.JTextField();
@@ -131,7 +141,7 @@ public class frame1 extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Swis721 BlkCn BT", 0, 18)); // NOI18N
         jLabel3.setText("Menu");
         jPanel2.add(jLabel3);
-        jLabel3.setBounds(240, 10, 70, 30);
+        jLabel3.setBounds(170, 10, 70, 30);
 
         jLabel5.setFont(new java.awt.Font("Swis721 Blk BT", 0, 11)); // NOI18N
         jLabel5.setText("Makanan");
@@ -141,7 +151,7 @@ public class frame1 extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Swis721 Blk BT", 0, 11)); // NOI18N
         jLabel6.setText("Minuman");
         jPanel2.add(jLabel6);
-        jLabel6.setBounds(370, 30, 70, 20);
+        jLabel6.setBounds(270, 30, 70, 20);
 
         jLabel7.setFont(new java.awt.Font("Segoe UI Semibold", 0, 11)); // NOI18N
         jLabel7.setText("Rib Eye Steak");
@@ -176,32 +186,32 @@ public class frame1 extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI Semibold", 0, 11)); // NOI18N
         jLabel4.setText("Oreo Frappe");
         jPanel2.add(jLabel4);
-        jLabel4.setBounds(300, 70, 80, 30);
+        jLabel4.setBounds(200, 70, 80, 30);
 
         jLabel13.setFont(new java.awt.Font("Segoe UI Semibold", 0, 11)); // NOI18N
         jLabel13.setText("Green Tea Latte");
         jPanel2.add(jLabel13);
-        jLabel13.setBounds(300, 100, 100, 30);
+        jLabel13.setBounds(200, 100, 100, 30);
 
         jLabel14.setFont(new java.awt.Font("Segoe UI Semibold", 0, 11)); // NOI18N
         jLabel14.setText("Blue Ocean");
         jPanel2.add(jLabel14);
-        jLabel14.setBounds(300, 120, 90, 40);
+        jLabel14.setBounds(200, 120, 90, 40);
 
         jLabel15.setFont(new java.awt.Font("Segoe UI Semibold", 0, 11)); // NOI18N
         jLabel15.setText("Rp. 20.000");
         jPanel2.add(jLabel15);
-        jLabel15.setBounds(430, 60, 70, 40);
+        jLabel15.setBounds(330, 60, 70, 40);
 
         jLabel16.setFont(new java.awt.Font("Segoe UI Semibold", 0, 11)); // NOI18N
         jLabel16.setText("Rp. 15.000");
         jPanel2.add(jLabel16);
-        jLabel16.setBounds(430, 90, 60, 40);
+        jLabel16.setBounds(330, 90, 60, 40);
 
         jLabel17.setFont(new java.awt.Font("Segoe UI Semibold", 0, 11)); // NOI18N
         jLabel17.setText("Rp. 20.000");
         jPanel2.add(jLabel17);
-        jLabel17.setBounds(430, 120, 60, 30);
+        jLabel17.setBounds(330, 120, 60, 30);
 
         jLabel18.setFont(new java.awt.Font("Segoe UI Semibold", 0, 11)); // NOI18N
         jLabel18.setText("Pecking Duck");
@@ -216,12 +226,20 @@ public class frame1 extends javax.swing.JFrame {
         jLabel20.setFont(new java.awt.Font("Segoe UI Semibold", 0, 11)); // NOI18N
         jLabel20.setText("Milk Tea");
         jPanel2.add(jLabel20);
-        jLabel20.setBounds(300, 150, 80, 30);
+        jLabel20.setBounds(200, 150, 80, 30);
 
         jLabel21.setFont(new java.awt.Font("Segoe UI Semibold", 0, 11)); // NOI18N
         jLabel21.setText("Rp. 10.000");
         jPanel2.add(jLabel21);
-        jLabel21.setBounds(430, 150, 60, 30);
+        jLabel21.setBounds(330, 150, 60, 30);
+
+        tanggal.setText("Tanggal");
+        jPanel2.add(tanggal);
+        tanggal.setBounds(400, 10, 120, 30);
+
+        waktu.setText("Waktu");
+        jPanel2.add(waktu);
+        waktu.setBounds(400, 40, 120, 30);
 
         getContentPane().add(jPanel2);
         jPanel2.setBounds(200, 10, 530, 190);
@@ -530,7 +548,9 @@ public class frame1 extends javax.swing.JFrame {
     private javax.swing.JButton refresh;
     private javax.swing.JButton save;
     private javax.swing.JTable table;
+    private javax.swing.JLabel tanggal;
     private javax.swing.JButton total;
+    private javax.swing.JLabel waktu;
     // End of variables declaration//GEN-END:variables
 
     private void selectData() {
@@ -557,4 +577,44 @@ public class frame1 extends javax.swing.JFrame {
     private void selectdata() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-}
+
+    private void setTanggal() {
+        java.util.Date skrg = new java.util.Date() ;
+        java.text.SimpleDateFormat kal = new java.text.SimpleDateFormat("dd/MM/yyyy") ;
+        tanggal.setText(kal.format(skrg));
+    }
+
+    private void setJam() {
+            ActionListener taskPerformer = new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            
+                Date dt = new Date() ;
+                int nilai_jam = dt.getHours() ;
+                int nilai_menit = dt.getMinutes() ;
+                int nilai_detik = dt.getSeconds() ;
+                if(nilai_jam <= 9){
+                    
+                 jam = 0 ;   
+                    
+                } if(nilai_menit <= 9){
+                    
+                 menit = 0 ;   
+                    
+                } if(nilai_jam <= 9){
+                    
+                 detik = 0 ;   
+                    
+                }
+                String Jam = jam + Integer.toString(nilai_jam) ;
+                String Menit = menit + Integer.toString(nilai_menit) ;
+                String Detik = detik + Integer.toString(nilai_detik) ;
+                
+                waktu.setText("Jam " + Jam + ":" + Menit + ":" + Detik );
+            }
+            
+        };
+        
+            new Timer(100, taskPerformer).start() ;
+    }
+    }
